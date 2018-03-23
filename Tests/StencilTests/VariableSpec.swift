@@ -160,5 +160,13 @@ func testVariable() {
       try expect(result) == "blog.com"
     }
 
+    $0.it("does not render Optional") {
+      var array: [Any?] = [1, nil]
+      array.append(array)
+      let context = Context(dictionary: ["values": array])
+      try expect(VariableNode(variable: "values").render(context)) == "[1, nil, [1, nil]]"
+      try expect(VariableNode(variable: "values.1").render(context)) == ""
+    }
+
   }
 }
